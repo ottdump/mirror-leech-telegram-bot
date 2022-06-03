@@ -48,6 +48,23 @@ try:
         log_error(f"NETRC_URL: {e}")
 except:
     pass
+
+try:
+    QBIT_CONF = getConfig('QBIT_CONF')
+    if len(QBIT_CONF) == 0:
+        raise KeyError
+    try:
+        res = rget(QBIT_CONF)
+        if res.status_code == 200:
+            with open('qBittorrent/config/qBittorrent.conf', 'wb+') as f:
+                f.write(res.content)
+        else:
+            log_error(f"Failed to download qBittorrent.conf {res.status_code}")
+    except Exception as e:
+        log_error(f"QBIT_CONF: {e}")
+except:
+    pass
+
 try:
     SERVER_PORT = getConfig('SERVER_PORT')
     if len(SERVER_PORT) == 0:
